@@ -19,7 +19,7 @@ export default function HomePage() {
       <Input
         placeholder='Search'
       />
-      <Select
+      <Select  
         options={options}
       />
     </div>
