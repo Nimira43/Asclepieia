@@ -22,6 +22,7 @@ export default function HomePage() {
       <Select  
         options={options}
       />
+      <div>Apples are</div>
     </div>
   )
 }

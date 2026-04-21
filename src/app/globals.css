@@ -4,6 +4,24 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-weight: 300; 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .logo-text {
   font-family: 'Turret Road', sans-serif;
 }
+
+.ant-btn {
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.ant-btn,
+.ant-input {
+  font-family: inherit;
+} 
+
