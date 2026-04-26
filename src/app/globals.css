@@ -4,6 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --main: #ff4500;
+  --dark: #111;
+  --light: #ffffee;
+  --grey-1: #333;
+  --grey-2: #999;
+  --grey-3: #ccc;
+  --grey-4: #eee;
+  --transitioning: all 0.5s ease-in-out;
+}
+
 * {
   font-weight: 300; 
   margin: 0;
@@ -11,8 +22,17 @@
   box-sizing: border-box;
 }
 
-.logo-text {
+a:hover {
+  color: var(--main);
+}
+
+.transitioning {
+  transition: all 0.5s ease-in-out; 
+}
+
+.logo-text {  
   font-family: 'Turret Road', sans-serif;
+  color: var(--dark);
 }
 
 .ant-btn {
@@ -24,4 +44,48 @@
 .ant-input {
   font-family: inherit;
 } 
+
+.cl-headerTitle {
+  font-size: 24px !important;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.cl-formFieldInput {
+  height: 40px !important;
+  border: 1px solid var(--grey-3) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  transition: all 0.5s ease-in-out !important;
+}
+
+.cl-formFieldInput:focus,
+.cl-formFieldInput:hover {
+  box-shadow: none !important;
+  border-color: var(--main) !important;
+}
+
+.cl-formButtonPrimary {
+  height: 40px !important;
+  text-transform: uppercase !important;
+  background-color: transparent !important;
+  color: var(--dark);
+  border: 1px solid var(--dark) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+
+.cl-formButtonPrimary,
+.cl-formButtonPrimary * {
+  transition: all 0.5s ease-in-out !important;
+}
+
+.cl-formButtonPrimary:hover {
+  border-color: var(--main) !important;
+  color: var(--main) !important; 
+}
+
+.cl-formButtonPrimary svg {
+  display: none !important;
+}
 
