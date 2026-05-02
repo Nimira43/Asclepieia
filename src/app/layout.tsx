@@ -2,6 +2,7 @@ import { Poppins } from 'next/font/google'
 import './globals.css'
 import ThemeProvider from '@/theme';
 import { ClerkProvider } from '@clerk/nextjs';
+import { connectMongoDB } from '@/config/mongodb';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -13,11 +14,13 @@ export const metadata = {
   description: 'Doctors appointment booking application using Next and MongoDB',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await connectMongoDB()
+
   return (
     <ClerkProvider>
       <html lang="en">
