@@ -1,16 +1,20 @@
+import { getUserDataFromMongoDB } from '@/server-actions/users'
 import { UserButton } from '@clerk/nextjs'
-import { currentUser } from '@clerk/nextjs/server'
 
 async function DashboardPage() {
-  const user = await currentUser()
+  const mongoUserResponse = await getUserDataFromMongoDB()
+
+  if (!mongoUserResponse?.success) {
+    console.log(mongoUserResponse?.message)
+  }
 
   return (
     <div className='p-10'>
       <h1>Dashboard Page</h1>
       <UserButton />
-      <h1>Name: {user?.firstName} {user?.lastName}</h1>
-      <h1>Id: {user?.id}</h1>
-      <h1>Email: {user?.emailAddresses[0].emailAddress}</h1>
+      <h1>Name: {mongoUserResponse?.data?.name}</h1>
+      <h1>Id: {mongoUserResponse?.data?._id}</h1>
+      <h1>Email: {mongoUserResponse?.data?.email}</h1>
     </div>
   )
 }

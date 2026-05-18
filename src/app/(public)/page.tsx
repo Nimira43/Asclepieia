@@ -4,28 +4,6 @@ import Link from 'next/link'
 export default function HomePage() {
   return (
     <div>
-      <div className='flex justify-between items-center p-5 border-b border-grey-4 shadow-sm'>
-        <Link
-          className='text-2xl logo-text'
-          href='/'>
-          Asclepieia
-        </Link>
-        <div className='flex gap-4'>
-          <Link
-            className='uppercase transitioning'
-            href='/sign-in'
-          >
-            Login
-          </Link>
-          <Link
-            className='uppercase transitioning'
-            href='/sign-up'
-          >
-            Register
-          </Link>
-        </div>        
-      </div>
-
       <div className='flex flex-col items-center text-center  gap-6 h-[80vh] px-10 mt-20'>
         <h1 className='logo-text text-5xl text-main font-medium leading-tight'>
           Exceptional Care, Personalised.

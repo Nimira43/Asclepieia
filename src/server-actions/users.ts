@@ -53,7 +53,6 @@ export const getUserDataFromMongoDB = async () => {
         data: newUser.data
       }
     }
-
   } catch (error: any ) {
     return {
       success: false,

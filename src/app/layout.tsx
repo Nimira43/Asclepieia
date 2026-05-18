@@ -3,6 +3,7 @@ import './globals.css'
 import ThemeProvider from '@/theme';
 import { ClerkProvider } from '@clerk/nextjs';
 import { connectMongoDB } from '@/config/mongodb';
+import CustomLayout from '@/custom-layouts';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -26,7 +27,9 @@ export default async function RootLayout({
       <html lang="en">
         <body className={poppins.className}>
           <ThemeProvider>
-            {children}
+            <CustomLayout>
+              {children}
+            </CustomLayout>
           </ThemeProvider>
         </body>
       </html>
