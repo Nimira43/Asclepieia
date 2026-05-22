@@ -12,7 +12,7 @@ function PublicLayout({
   return (
     <div>
       {!isAuthRoute && (
-        <div className='flex justify-between items-center p-5 border-b border-grey-4 shadow-sm'>
+        <div className='flex justify-between items-center p-5 px-10 border-b border-grey-4 shadow-sm'>
           <Link
             className='text-2xl logo-text transitioning'
             href='/'>
@@ -23,13 +23,7 @@ function PublicLayout({
               className='uppercase transitioning'
               href='/sign-in'
             >
-              Login
-            </Link>
-            <Link
-              className='uppercase transitioning'
-              href='/sign-up'
-            >
-              Register
+              Login / Register
             </Link>
           </div>        
         </div>        
