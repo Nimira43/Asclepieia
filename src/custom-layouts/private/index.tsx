@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { IUser } from '@/interfaces'
 import { getUserDataFromMongoDB } from '@/server-actions/users'
-import { Button, message } from 'antd'
+import { Alert, Button, message } from 'antd'
 import { RxHamburgerMenu } from 'react-icons/rx'
 
 function PrivateLayout({
@@ -21,6 +21,10 @@ function PrivateLayout({
 
       if (response.success) {
         setUserData(response.data)
+
+        if (!response.data.isApproved) {
+          setError('Your account is not approved yet. Please contact Admin.')
+        }
       } else {
         message.error(response.message)
         setError(response.message)
@@ -58,21 +62,25 @@ function PrivateLayout({
               className='text-dark hover:text-main transitioning'
             />
           </Button>
-          
         </div>
-        
-        {/* <div className='flex gap-4'>
-          <Link
-            className='uppercase transitioning'
-            href='/sign-in'
-          >
-            Login / Register
-          </Link>
-        </div>         */}
       </div>  
-      <div className='p-5'>
-        {children}  
-      </div>
+      {error
+        ? (
+          <div className='p-5'>
+            <Alert
+              showIcon
+              message={error}
+              type='error'
+            />
+          </div>
+        )
+        : (
+          <div className='p-5'>
+            {children}  
+          </div>    
+        )
+      }
+      
     </div>
   )
 }
