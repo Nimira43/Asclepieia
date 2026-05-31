@@ -4,6 +4,8 @@ import { IUser } from '@/interfaces'
 import { getUserDataFromMongoDB } from '@/server-actions/users'
 import { Alert, Button, message } from 'antd'
 import { RxHamburgerMenu } from 'react-icons/rx'
+import Spinner from '@/components/spinner'
+import MenuItems from './menu-items'
 
 function PrivateLayout({
   children
@@ -13,6 +15,7 @@ function PrivateLayout({
   const [userData, setUserData] = useState<IUser | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const [showMenuItems, setShowMenuItems] = useState<boolean>(false)
   
   const getUserData = async () => {
     try {
@@ -41,12 +44,20 @@ function PrivateLayout({
     getUserData()
   }, [])
 
+  if (loading) {
+    return (
+      <div className='flex justify-center items-center h-screen'>
+        <Spinner />
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className='flex justify-between items-center p-5 px-10 border-b border-grey-4 shadow-sm'>
         <Link
           className='text-2xl logo-text transitioning'
-          href='/'>
+          href='/admin/dashboard'>
           Asclepieia
         </Link>
         <div className='flex items-center gap-5'>
@@ -56,6 +67,7 @@ function PrivateLayout({
           <Button
             ghost
             size='small'
+            onClick={() => setShowMenuItems(true)}
           >
             <RxHamburgerMenu
               size={16}
@@ -80,7 +92,12 @@ function PrivateLayout({
           </div>    
         )
       }
-      
+      {showMenuItems && (
+        <MenuItems
+          showMenuItems={showMenuItems}
+          setShowMenuItems={setShowMenuItems}
+        />
+      )}      
     </div>
   )
 }

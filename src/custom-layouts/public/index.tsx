@@ -23,7 +23,9 @@ function PublicLayout({
               className='uppercase transitioning'
               href='/sign-in'
             >
-              Login / Register
+              <span className='font-medium'>
+                Login / Register
+              </span>
             </Link>
           </div>        
         </div>        

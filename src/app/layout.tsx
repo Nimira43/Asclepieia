@@ -4,6 +4,7 @@ import ThemeProvider from '@/theme';
 import { ClerkProvider } from '@clerk/nextjs';
 import { connectMongoDB } from '@/config/mongodb';
 import CustomLayout from '@/custom-layouts';
+import { App } from 'antd';
 
 const poppins = Poppins({
   subsets: ['latin'],
