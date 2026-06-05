@@ -46,7 +46,7 @@ function MenuItems({
     {
       name: 'Staff / Users',
       icon: <TbUsers size={iconSize} />,
-      path: '/admin/staff'
+      path: '/admin/users'
     },
   ]
 

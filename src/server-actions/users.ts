@@ -61,6 +61,22 @@ export const getUserDataFromMongoDB = async () => {
   }
 }
 
+export const getAllUsers = async () => {
+  try {
+    const users = await UserModel
+      .find()
+      .sort({ createdAt: -1 })
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(users))
+    }
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message,
+    }
+  }
+}
 
 
 

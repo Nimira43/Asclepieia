@@ -1,10 +1,10 @@
 import { Poppins } from 'next/font/google'
 import './globals.css'
-import ThemeProvider from '@/theme';
-import { ClerkProvider } from '@clerk/nextjs';
-import { connectMongoDB } from '@/config/mongodb';
-import CustomLayout from '@/custom-layouts';
-import { App } from 'antd';
+import ThemeProvider from '@/theme'
+import { ClerkProvider } from '@clerk/nextjs'
+import { connectMongoDB } from '@/config/mongodb'
+import CustomLayout from '@/custom-layouts'
+import { App } from 'antd'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -27,11 +27,13 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={poppins.className}>
-          <ThemeProvider>
-            <CustomLayout>
-              {children}
-            </CustomLayout>
-          </ThemeProvider>
+          <App>
+            <ThemeProvider>
+              <CustomLayout>
+                {children}
+              </CustomLayout>
+            </ThemeProvider>
+          </App>
         </body>
       </html>
     </ClerkProvider>
