@@ -85,7 +85,12 @@ a:hover {
   color: var(--main) !important; 
 }
 
-.cl-formButtonPrimary svg {
+/* .cl-formButtonPrimary svg {
   display: none !important;
-}
+} */
 
+table {
+  border: 1px dotted var(--grey-3);
+  margin-top: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
