@@ -15,7 +15,8 @@ module.exports = {
         'grey-1': '#333',
         'grey-2': '#999', 
         'grey-3': '#ccc',
-        'grey-4': '#eee'
+        'grey-4': '#eee',
+        'grey-5': '#fafafa',
       },   
     },
   },
