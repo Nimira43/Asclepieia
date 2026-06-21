@@ -1,14 +1,46 @@
 'use client'
 
 import { IUser } from '@/interfaces'
-import { Table, Switch } from 'antd'
+import { updateUser } from '@/server-actions/users'
+import { Table, Switch, message } from 'antd'
 import dayjs from 'dayjs'
+import { useState } from 'react'
 
 function UsersTable({
   users
 }: {
   users: IUser[]
 }) {
+  const [loading, setLoading] = useState(false)
+  
+  const updateUserHandler = async ({
+    userId,
+    updatedData
+  }: {
+    userId: string
+    updatedData: Partial<IUser>
+  }) => {
+    try {
+      setLoading(true)      
+
+      const { success } = await updateUser({
+        userId,
+        updatedData
+      })
+
+      if (success) {
+        message.success('User updated successfully.')
+      } else {
+        message.error('Failed to update user.')
+      }
+
+    } catch (error: any) {
+      message.error(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+  
   const columns = [
     {
       title: 'Name',
@@ -39,30 +71,47 @@ function UsersTable({
       title: 'Is Approved',
       dataIndex: 'isApproved',
       key: 'isApproved',
-      render: (isApproved: boolean) => 
+      render: (isApproved: boolean, row: IUser) => 
         <Switch 
           checked={isApproved}
+          onChange={(newValue) =>
+            updateUserHandler({
+              userId: row._id,
+              updatedData: {
+                isApproved: newValue
+              }
+            })
+          }
         />
     },
     {
       title: 'Is Super Admin',
       dataIndex: 'isSuperAdmin',
       key: 'isSuperAdmin',
-      render: (isSuperAdmin: boolean) => 
+      render: (isSuperAdmin: boolean, row: IUser) => 
         <Switch 
           checked={isSuperAdmin}
+          onChange={(newValue) =>
+            updateUserHandler({
+              userId: row._id,
+              updatedData: {
+                isSuperAdmin: newValue
+              }
+            })
+          }
         />
     },
   ]
 
   return (
-    <Table
-      dataSource={users}
-      columns={columns}
-      rowKey='clerkUserId'
-    >
-
-    </Table>
+    <div>
+      <Table
+        dataSource={users}
+        columns={columns}
+        loading={loading}
+        rowKey='_id'
+      />
+    </div>
   )
 }
 

@@ -1,7 +1,9 @@
 'use server'
 
+import { IUser } from '@/interfaces'
 import UserModel from '@/models/user-model'
 import { currentUser } from '@clerk/nextjs/server'
+import { revalidatePath } from 'next/cache'
 
 export const createUser = async () => {
   try {
@@ -78,7 +80,33 @@ export const getAllUsers = async () => {
   }
 }
 
-
+export const updateUser = async ({
+  userId,
+  updatedData
+}: {
+  userId: string
+  updatedData: Partial<IUser>
+}) => {
+  try {
+    await UserModel
+      .findByIdAndUpdate(
+        userId,
+        updatedData,
+        { new: true }
+      )
+    revalidatePath('/admin/user')
+    return {
+      success: true,
+      message: 'User updated successfully'
+    }
+    
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message
+    }
+  }  
+}
 
 
 
