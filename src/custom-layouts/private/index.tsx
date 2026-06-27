@@ -6,16 +6,18 @@ import { Alert, Button, message } from 'antd'
 import { RxHamburgerMenu } from 'react-icons/rx'
 import Spinner from '@/components/spinner'
 import MenuItems from './menu-items'
+import { usersGlobalStore, IUsersStore } from '@/store/users-store'
+
 
 function PrivateLayout({
   children
 }: {
   children: React.ReactNode
 }) {
-  const [userData, setUserData] = useState<IUser | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [showMenuItems, setShowMenuItems] = useState<boolean>(false)
+  const { setCurrentUserData, currentUserData }: IUsersStore = usersGlobalStore() as any
   
   const getUserData = async () => {
     try {
@@ -23,7 +25,7 @@ function PrivateLayout({
       const response: any = await getUserDataFromMongoDB()
 
       if (response.success) {
-        setUserData(response.data)
+        setCurrentUserData(response.data)
 
         if (!response.data.isApproved) {
           setError('Your account is not approved yet. Please contact Admin.')
@@ -62,7 +64,7 @@ function PrivateLayout({
         </Link>
         <div className='flex items-center gap-5'>
           <span className='text-sm'>
-            {userData?.name}
+            {currentUserData?.name}
           </span>
           <Button
             ghost

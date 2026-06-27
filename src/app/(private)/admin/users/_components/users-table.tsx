@@ -2,6 +2,7 @@
 
 import { IUser } from '@/interfaces'
 import { updateUser } from '@/server-actions/users'
+import { IUsersStore, usersGlobalStore } from '@/store/users-store'
 import { Table, Switch, message } from 'antd'
 import dayjs from 'dayjs'
 import { useState } from 'react'
@@ -12,7 +13,8 @@ function UsersTable({
   users: IUser[]
 }) {
   const [loading, setLoading] = useState(false)
-  
+  const { currentUserData } : IUsersStore = usersGlobalStore() as any
+ 
   const updateUserHandler = async ({
     userId,
     updatedData
@@ -102,6 +104,10 @@ function UsersTable({
         />
     },
   ]
+
+  if (!currentUserData?.isSuperAdmin) {
+    columns.splice(4, 2)
+  }
 
   return (
     <div>
