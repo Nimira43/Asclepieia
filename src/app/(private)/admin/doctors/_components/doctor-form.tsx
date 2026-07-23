@@ -1,15 +1,35 @@
 'use client'
 
 import { specialisation, workDays, workHours } from '@/app/constants'
-import { Form, Input, Select, Upload } from 'antd'
+import { uploadFileToFirebaseAndReturnURL } from '@/helpers/firebase-uploads'
+import { Button, Form, Input, Select, Upload } from 'antd'
 import { useState } from 'react'
 
 function DoctorForm() {
   const [profilePicture, setProfilePicture] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+
+  const onSubmit = async (values: any) => {
+    try {
+      setLoading(true)
+
+      if (profilePicture) {
+        values.profilePicture = await uploadFileToFirebaseAndReturnURL(profilePicture)
+      }
+    } catch (error: any) {
+      // message.error(error.message)      
+      console.log(error.message)      
+    } finally {
+      setLoading(false)
+    }
+  }
   
   return (
     <div className='mt-5'>
-      <Form layout='vertical'>
+      <Form
+        layout='vertical'
+        onFinish={onSubmit}
+      >
         <Form.Item
           name='name'
           label='Name'
@@ -146,6 +166,21 @@ function DoctorForm() {
             </div>
           </Upload>
         </Form.Item>
+        <div className='cols-span-4 flex justify-between gap-5'>
+          <Button
+            disabled={loading}
+            className='w-full transitioning'
+          >
+            Cancel
+          </Button>
+          <Button
+            htmlType='submit'
+            loading={loading}
+            className='w-full transitioning'
+          >
+            Submit
+          </Button>
+        </div>
       </Form>      
     </div>
   )
