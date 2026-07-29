@@ -2,12 +2,21 @@
 
 import { specialisation, workDays, workHours } from '@/app/constants'
 import { uploadFileToFirebaseAndReturnURL } from '@/helpers/firebase-uploads'
-import { Button, Form, Input, Select, Upload } from 'antd'
+import { IDoctor } from '@/interfaces'
+import { addDoctor } from '@/server-actions/doctors'
+import { Button, Form, Input, message, Select, Upload } from 'antd'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-function DoctorForm() {
+interface DoctorFormProps {
+  type: 'add' | 'edit'
+  initialValues?: Partial<IDoctor>
+}
+
+function DoctorForm({ type = 'add', initialValues = {} }: DoctorFormProps) {
   const [profilePicture, setProfilePicture] = useState<any>(null)
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   const onSubmit = async (values: any) => {
     try {
@@ -16,9 +25,20 @@ function DoctorForm() {
       if (profilePicture) {
         values.profilePicture = await uploadFileToFirebaseAndReturnURL(profilePicture)
       }
+      let response: any = null
+
+      if (type = 'add') {
+        response = await addDoctor(values)
+      }
+
+      if (response.success) {
+        message.success(response.message)
+        router.push('/admin/doctors')
+      } else {
+        message.error(response.message)
+      }
     } catch (error: any) {
-      // message.error(error.message)      
-      console.log(error.message)      
+      message.error(error.message)           
     } finally {
       setLoading(false)
     }
@@ -106,10 +126,7 @@ function DoctorForm() {
             }
           ]}
         >
-          <Select
-            options={workHours}
-            mode='multiple'
-          />
+          <Select options={workHours} />
         </Form.Item>
         <Form.Item
           name='endTime'
@@ -121,10 +138,7 @@ function DoctorForm() {
             }
           ]}
         >
-          <Select
-            options={workHours}
-            mode='multiple'
-          />
+          <Select options={workHours} />
         </Form.Item>
         <Form.Item
           name='fee'
