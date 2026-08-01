@@ -17,3 +17,18 @@ export const addDoctor = async (payload: Partial<IDoctor>) => {
     }
   }
 }
+
+export const getDoctors = async () => {
+  try {
+    const doctors = await DoctorModel.find().sort({ createdAt: -1 })
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(doctors))
+    }
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message
+    }
+  }
+}
