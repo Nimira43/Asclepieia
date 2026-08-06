@@ -1,21 +1,37 @@
 import PageTitle from '@/components/page-title'
-import { Button } from 'antd'
+import { getDoctors } from '@/server-actions/doctors'
+import { Alert, Button } from 'antd'
 import Link from 'next/link'
+import DoctorsTable from './_components/doctors-table'
 
-function DoctorsPage() {
+async function DoctorsPage() {
+  const { success, data } = await getDoctors()
+
+  if (!success) {
+    return (
+      <Alert 
+        message='Failed to fetch doctors.'
+        showIcon
+      />
+    )
+  }
+
+  const doctors = data
+
   return (
-    <div className='flex justify-center items-start min-h-screen p-4'>
-      <div className='w-full max-w-2xl'>
+    <div className='mx-10 p-5'>
       <div className='flex justify-between items-center'>
         <PageTitle title='Doctors' />
         <Button>
           <Link href='/admin/doctors/new'>
-            <span className='text-sm uppercase'>Add Doctor</span>
+            <span className='text-sm uppercase'>
+              Add Doctor
+            </span>
           </Link>
         </Button>
       </div>
-      </div>
-      </div>
+      <DoctorsTable doctors={doctors} />
+    </div>
   )
 }
 

@@ -18,7 +18,7 @@ async function UsersPage() {
 
   const users: IUser[] = data
   return (
-    <div className='p-5'>
+    <div className='mx-10 p-5'>
       <PageTitle title='Users' />
       <UsersTable users={users} />
     </div>

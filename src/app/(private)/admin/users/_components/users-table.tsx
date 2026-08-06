@@ -1,5 +1,6 @@
 'use client'
 
+import { getDateTimeFormat } from '@/helpers/date-time-formats'
 import { IUser } from '@/interfaces'
 import { updateUser } from '@/server-actions/users'
 import { IUsersStore, usersGlobalStore } from '@/store/users-store'
@@ -63,11 +64,7 @@ function UsersTable({
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (createdAt: string) => (
-        <>
-          {dayjs(createdAt).format('DD/MM/YYYY, HH:mm')}
-        </>
-      )
+      render: (date: string) => getDateTimeFormat(date)
     },
     {
       title: 'Is Approved',

@@ -184,6 +184,7 @@ function DoctorForm({ type = 'add', initialValues = {} }: DoctorFormProps) {
           <Button
             disabled={loading}
             className='w-full transitioning'
+            onClick={() => router.push('/admin/doctors')}
           >
             Cancel
           </Button>
