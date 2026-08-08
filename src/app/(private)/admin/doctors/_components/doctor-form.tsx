@@ -3,7 +3,7 @@
 import { specialisation, workDays, workHours } from '@/app/constants'
 import { uploadFileToFirebaseAndReturnURL } from '@/helpers/firebase-uploads'
 import { IDoctor } from '@/interfaces'
-import { addDoctor } from '@/server-actions/doctors'
+import { addDoctor, updateDoctor } from '@/server-actions/doctors'
 import { Button, Form, Input, message, Select, Upload } from 'antd'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -14,7 +14,7 @@ interface DoctorFormProps {
 }
 
 function DoctorForm({ type = 'add', initialValues = {} }: DoctorFormProps) {
-  const [profilePicture, setProfilePicture] = useState<any>(null)
+  const [profilePicture, setProfilePicture] = useState<any>(initialValues.profilePicture || null)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
@@ -24,11 +24,15 @@ function DoctorForm({ type = 'add', initialValues = {} }: DoctorFormProps) {
 
       if (profilePicture) {
         values.profilePicture = await uploadFileToFirebaseAndReturnURL(profilePicture)
+      } else {
+        values.profilePicture = profilePicture
       }
       let response: any = null
 
-      if (type = 'add') {
+      if (type === 'add') {
         response = await addDoctor(values)
+      } else {
+        response = await updateDoctor({ id: initialValues?._id!, data: values})
       }
 
       if (response.success) {
@@ -49,6 +53,7 @@ function DoctorForm({ type = 'add', initialValues = {} }: DoctorFormProps) {
       <Form
         layout='vertical'
         onFinish={onSubmit}
+        initialValues={initialValues}
       >
         <Form.Item
           name='name'

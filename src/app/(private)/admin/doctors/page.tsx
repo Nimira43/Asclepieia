@@ -19,7 +19,7 @@ async function DoctorsPage() {
   const doctors = data
 
   return (
-    <div className='mx-10 p-5'>
+    <div className='mx-20 p-5'>
       <div className='flex justify-between items-center'>
         <PageTitle title='Doctors' />
         <Button>
