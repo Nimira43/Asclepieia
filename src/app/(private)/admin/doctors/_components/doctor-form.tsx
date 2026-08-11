@@ -48,6 +48,28 @@ function DoctorForm({ type = 'add', initialValues = {} }: DoctorFormProps) {
     }
   }
   
+  let selectedFilesList: any[] = []
+
+  if (profilePicture && typeof profilePicture === 'string') {
+    selectedFilesList = [{
+      url: profilePicture,
+      thumbUrl: profilePicture,
+      uid: profilePicture
+    }]
+  }
+
+  if (profilePicture && typeof profilePicture === 'object') {
+    selectedFilesList = [{
+      uid: '-1',
+      url: URL.createObjectURL(profilePicture),
+      thumbUrl: URL.createObjectURL(profilePicture)
+    }]
+  }
+
+  if (!profilePicture) {
+    selectedFilesList = []
+   }
+
   return (
     <div className='mt-5'>
       <Form
@@ -175,6 +197,7 @@ function DoctorForm({ type = 'add', initialValues = {} }: DoctorFormProps) {
             beforeUpload={(file) => {
               setProfilePicture(file)
             }} 
+            fileList={selectedFilesList}
           >
             <div className='span cursor-pointer'>
               {profilePicture

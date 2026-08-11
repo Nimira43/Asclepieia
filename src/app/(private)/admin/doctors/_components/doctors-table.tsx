@@ -2,11 +2,13 @@
 
 import { getDateTimeFormat } from '@/helpers/date-time-formats'
 import { IDoctor } from '@/interfaces'
-import { Table, Button } from 'antd'
+import { Table, Button, message } from 'antd'
 import dayjs from 'dayjs'
 import { VscEdit } from 'react-icons/vsc'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { deleteDoctor } from '@/server-actions/doctors'
 
 function DoctorsTable({
   doctors
@@ -14,6 +16,25 @@ function DoctorsTable({
   doctors: IDoctor[]
 }) {
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
+  
+  const deleteDoctorHandler = async (id: string) => { 
+    try {
+      setLoading(true)
+      const { success } = await deleteDoctor(id)
+
+      if (success) {
+        message.success('Doctor deleted successfully.')
+      } else {
+        message.error('Failed to delete doctor.')
+      }
+    } catch (error: any) {
+      message.error(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+  
   const columns = [
     {
       title: 'Name',
@@ -75,7 +96,7 @@ function DoctorsTable({
           <Button
             size='small'
             className='transitioning'
-
+            onClick={() => deleteDoctorHandler(row._id)}
           >
             <RiDeleteBin6Line size={14} />
           </Button>
@@ -91,6 +112,7 @@ function DoctorsTable({
         columns={columns}
         rowKey='_id'
         pagination={false}
+        loading={loading}
       />
     </div>
   )
