@@ -9,7 +9,7 @@ function ThemeProvider({
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: '#ff4500',
+          colorPrimary: '#ff652e',
         },
         components: {
           Button: {
