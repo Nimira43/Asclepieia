@@ -12,12 +12,12 @@ const appointmentSchema = new mongoose.Schema(
     },
     doctor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "doctors",
+      ref: 'doctors',
       required: true,
     },
     patient: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "patients",
+      ref: 'patients',
       required: true,
     },
     specialist: {
@@ -26,8 +26,8 @@ const appointmentSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["pending", "approved", "rejected"],
-      default: "approved",
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'approved',
     },
     fee: {
       type: Number,
