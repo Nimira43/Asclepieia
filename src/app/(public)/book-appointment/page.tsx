@@ -2,7 +2,9 @@
 
 import { specialisation, workHours } from '@/app/constants'
 import PageTitle from '@/components/page-title'
-import { Button, Form, Input, Select } from 'antd'
+import { IDoctor } from '@/interfaces'
+import { checkDoctorAvailability } from '@/server-actions/appointments'
+import { Alert, Button, Form, Input, message, Select } from 'antd'
 import dayjs from 'dayjs'
 import { useState } from 'react'
 
@@ -13,7 +15,29 @@ function BookAppointmentPage() {
     specialist: '',
   })
 
-  const checkAvailabilityHandler = () => { }
+  const [availableDoctors, setAvailableDoctors] = useState<IDoctor[]>([])
+  const[loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const checkAvailabilityHandler = async () => { 
+    try {
+      setLoading(true)
+      setError('')
+      const { success, data } = await checkDoctorAvailability(slotData)
+      
+      if (!success || !data.length) {
+        setError('No doctors available for the given slot.')
+      } else {
+        setAvailableDoctors(data)
+        console.log(data)
+      }
+
+    } catch (error: any) {
+      setError(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
   
   const clearHandler = () => {
     setSlotData({
@@ -21,6 +45,7 @@ function BookAppointmentPage() {
       time: '',
       specialist: '',
     })
+    setAvailableDoctors([])
   }
 
   return (
@@ -81,11 +106,21 @@ function BookAppointmentPage() {
               className='text-sm transitioning'
               disabled={!slotData.specialist}
               onClick={checkAvailabilityHandler}
+              loading={loading}
             >
               Check Availability
             </Button>
           </div>
         </Form>
+        {error && (
+          <Alert
+            message={error}
+            type='error'
+            showIcon
+            closable
+            className='mt-5'
+          />
+        )}
       </div>
     </div>
   )

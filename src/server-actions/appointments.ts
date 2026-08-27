@@ -2,6 +2,7 @@
 
 import AppointmentModel from '@/models/appointment-model'
 import DoctorModel from '@/models/doctor-model'
+import dayjs from 'dayjs'
 
 export const checkDoctorAvailability = async ({
   date,
@@ -20,7 +21,14 @@ export const checkDoctorAvailability = async ({
 
     const availableDoctors = await DoctorModel.find({
       _id: { $nin: bookedDoctorIds },
-      specialisation: { $in: [specialist] }
+      specialisation: { $in: [specialist] },
+      workDays: {
+        $in: [
+          dayjs(date).format('dddd').toLowerCase()
+        ]
+      },
+      startTime: { $lte: time },
+      endTime: { $gt: time },
     })
 
     return {
